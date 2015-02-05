@@ -11,3 +11,42 @@ BEGIN
 NOMBRE:='RICARDO';
 EDAD:=17;
 DBMS_OUTPUT.PUT_LINE('HOLA'||NOMBRE||'TU EDAD ES'||EDAD);
+
+---------------------------------------------------------------
+/*
+Creamos la tabla dance
+*/
+
+create table dance (id_dance integer, nombre varchar2(120), constraint pk_id_dance primary key (id_dance));
+
+--Creamos la secuencia correspondiente
+
+create sequence sec_dance
+start with 1
+increment by 1
+nomaxvalue;
+
+/*
+Creamos el procedimiento almacenado que nos enlazara ls secuencia con la tabla dance
+*/
+
+CREATE OR REPLACE PROCEDURE GUARDAR_DANCE(MY_ID OUT INTEGER, MY_NOMBRE IN VARCHAR2)
+AS
+  BEGIN
+
+  SELECT SEC_DANCE.NEXTVAL INTO  MY_ID FROM DUAL;
+  INSERT INTO DANCE(ID_DANCE, NOMBRE) VALUES(MY_ID, MY_NOMBRE);
+END;
+/
+
+/*
+Ahora si a insertar en el table dance
+*/
+---------------------------------------------------------------------------
+DECLARE
+VALOR INTEGER;
+BEGIN
+guardar_dance(VALOR,'RICARDO');
+dbms_output.put_line('se inserto con exito'||VALOR);
+END;
+/
