@@ -87,3 +87,19 @@ ELSE
    DBMS_OUTPUT.PUT_LINE('YA TE REGISTRAMOS');
    END;
    /
+  ---------------------------------
+  Tarea
+  create table peliculas (id_pelicula integer, titulo varchar2(180),sinopsis varchar2(400),CONSTRAINT pk_id_pelicula PRIMARY KEY (id_pelicula));
+
+create table sala (id_sala integer,id_pelicula integer, numero_asiento integer,CONSTRAINT pk1_id_sala PRIMARY KEY (id_sala), CONSTRAINT FK1_id_pelicula FOREIGN KEY (id_pelicula) 
+               references peliculas (id_pelicula));
+               describe sala;
+
+create sequence sec_pelicula
+start with 1
+increment by 1
+nomaxvalue;
+
+CREATE OR REPLACE PROCEDURE GUARDAR_PELICULA(my_id out integer,my_titulo IN integer,my_sinopsis IN varchar2)AS
+        insert into peliculas(id_pelicula,titulo,sinopsis) values(my_id,my_titulo,my_sinopsis);
+END;
