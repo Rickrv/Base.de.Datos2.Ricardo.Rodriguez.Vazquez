@@ -50,3 +50,7 @@ guardar_dance(VALOR,'RICARDO');
 dbms_output.put_line('se inserto con exito'||VALOR);
 END;
 /
+-----------------------------------------------------------------------------
+Clase 7 de Febrero 2015
+
+create table usuario_xxx (id_usuario integer, login varchar2(120),edad integer,CONSTRAINT pk_id_usuario PRIMARY KEY (id_usuario));
