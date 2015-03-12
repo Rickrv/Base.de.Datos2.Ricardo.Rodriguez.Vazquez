@@ -1,0 +1,36 @@
+DECLARE
+    inicio INTEGER;
+    valor  INTEGER;
+BEGIN
+    ini := 1500;
+    FOR i IN 1..300
+  LOOP
+     DBMS_RANDOM.String('l',8);
+      guardar_trabajador (i,i,nombre,puesto);
+      guardar_honorarios(i,i,ini,NULL,NULL,NULL);
+      ini := ini + 100;
+  END LOOP;
+END;
+
+
+CREATE OR REPLACE PROCEDURE datos
+AS
+  my_iva        INTEGER;
+  my_retiva     INTEGER;
+  my_isr        INTEGER;
+  my_totalpagar INTEGER;
+  CURSOR cur_xx IS SELECT * FROM honorarios FOR UPDATE;
+BEGIN
+    FOR xx IN cur_xx LOOP
+
+    my_iva        := xx.subtotal * 0.16;
+    my_retiva     := xx.iva      /3;
+    my_isr        := xx.subtotal * 0.10;
+    my_totalpagar := xx.subtotal + xx.ret_iva - xx.iva - xx.isr;
+    UPDATE honorarios SET
+      iva         = my_iva,
+      ret_iva     = my_retiva,
+      isr         = my_isr,
+      total_pagar = my_totalpagar
+    WHERE CURRENT OF cur_xx;
+  END LOOP;
